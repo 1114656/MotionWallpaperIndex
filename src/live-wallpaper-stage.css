@@ -1,0 +1,258 @@
+.live-wallpaper-stage {
+  width: 100%;
+  min-width: 0;
+  color: #193c43;
+}
+
+.live-wallpaper-stage__frame {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid rgba(26, 81, 91, .14);
+  border-radius: 3px;
+  background: #a0d8eb;
+  box-shadow: 0 22px 55px rgba(16, 72, 84, .13);
+}
+
+.live-wallpaper-stage__scene,
+.live-wallpaper-stage__scene img,
+.live-wallpaper-stage__light {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.live-wallpaper-stage__scene {
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.live-wallpaper-stage__scene.is-active {
+  z-index: 1;
+  opacity: 1;
+}
+
+.live-wallpaper-stage.is-motion-playing .live-wallpaper-stage__scene {
+  transition: opacity .8s ease;
+}
+
+.live-wallpaper-stage__scene img {
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+  backface-visibility: hidden;
+  transform: scale(1.035);
+  animation-play-state: paused;
+}
+
+.live-wallpaper-stage__scene--0 img {
+  animation: live-wallpaper-water 16s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene--1 img {
+  animation: live-wallpaper-clouds 24s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene--2 img {
+  animation: live-wallpaper-leaves 18s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene--3 img {
+  animation: live-wallpaper-flow 17s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__light {
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.live-wallpaper-stage__scene--1 .live-wallpaper-stage__light {
+  background: linear-gradient(114deg, transparent 30%, rgba(255, 255, 255, .28) 48%, transparent 64%);
+  animation: live-wallpaper-light 18s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene--2 .live-wallpaper-stage__light {
+  background: radial-gradient(circle at 74% 24%, rgba(255, 245, 173, .24), transparent 44%);
+  animation: live-wallpaper-sunlight 12s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene--3 .live-wallpaper-stage__light {
+  background: linear-gradient(113deg, transparent 27%, rgba(255, 255, 255, .28) 48%, transparent 67%);
+  animation: live-wallpaper-light 13s ease-in-out infinite alternate;
+}
+
+.live-wallpaper-stage__scene img,
+.live-wallpaper-stage__light {
+  animation-play-state: paused;
+}
+
+.live-wallpaper-stage.is-motion-playing .live-wallpaper-stage__scene.is-active img,
+.live-wallpaper-stage.is-motion-playing .live-wallpaper-stage__scene.is-active .live-wallpaper-stage__light {
+  animation-play-state: running;
+}
+
+.live-wallpaper-stage .aqua-current {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .48;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.live-wallpaper-stage__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  padding-top: 8px;
+}
+
+.live-wallpaper-stage__caption-name {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.live-wallpaper-stage__caption-name > span {
+  color: #66848b;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-wallpaper-stage__caption-name > strong {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+
+.live-wallpaper-stage__playback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 5px 9px;
+  border: 0;
+  background: transparent;
+  color: #2f5f69;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.live-wallpaper-stage__playback svg {
+  width: 16px;
+  height: 16px;
+}
+
+.live-wallpaper-stage__playback:hover {
+  color: #0a8a9f;
+}
+
+.live-wallpaper-stage__playback:disabled {
+  color: #708a90;
+  cursor: default;
+}
+
+.live-wallpaper-stage__choices {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(25, 83, 94, .22);
+}
+
+.live-wallpaper-stage__choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 43px;
+  padding: 10px 6px 8px;
+  border: 0;
+  border-top: 2px solid transparent;
+  background: transparent;
+  color: #66848b;
+  font-size: 12px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.live-wallpaper-stage__choice > span {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-wallpaper-stage__choice:hover,
+.live-wallpaper-stage__choice.is-active {
+  color: #184c58;
+}
+
+.live-wallpaper-stage__choice.is-active {
+  border-top-color: #188fa3;
+  font-weight: 650;
+}
+
+.live-wallpaper-stage__choice:focus-visible,
+.live-wallpaper-stage__playback:focus-visible {
+  outline: 2px solid #0a8a9f;
+  outline-offset: 2px;
+}
+
+@keyframes live-wallpaper-water {
+  from { transform: scale(1.035) translate3d(-.5%, 0, 0); }
+  to { transform: scale(1.07) translate3d(.6%, -1%, 0); }
+}
+
+@keyframes live-wallpaper-clouds {
+  from { transform: scale(1.075) translate3d(-1.2%, 0, 0); }
+  to { transform: scale(1.075) translate3d(1.2%, -.8%, 0); }
+}
+
+@keyframes live-wallpaper-leaves {
+  from { transform: scale(1.045) translate3d(-.6%, .4%, 0) rotate(-.2deg); }
+  to { transform: scale(1.065) translate3d(.7%, -.4%, 0) rotate(.2deg); }
+}
+
+@keyframes live-wallpaper-flow {
+  from { transform: scale(1.07) translate3d(-1.1%, .8%, 0); }
+  to { transform: scale(1.07) translate3d(1.1%, -.8%, 0); }
+}
+
+@keyframes live-wallpaper-light {
+  from { opacity: .13; transform: translateX(-6%); }
+  to { opacity: .46; transform: translateX(6%); }
+}
+
+@keyframes live-wallpaper-sunlight {
+  from { opacity: .24; transform: translate(-3%, 1%) scale(1); }
+  to { opacity: .65; transform: translate(2%, -1%) scale(1.07); }
+}
+
+@media (max-width: 520px) {
+  .live-wallpaper-stage__caption { min-height: 52px; }
+  .live-wallpaper-stage__caption-name > strong { font-size: 16px; }
+  .live-wallpaper-stage__choice { gap: 4px; font-size: 11px; }
+  .live-wallpaper-stage__choice > span { font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-wallpaper-stage__scene,
+  .live-wallpaper-stage__scene img,
+  .live-wallpaper-stage__light {
+    animation: none !important;
+    transition: none !important;
+  }
+}

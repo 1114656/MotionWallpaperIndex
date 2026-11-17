@@ -3,7 +3,6 @@ import {
   Add24Regular,
   ArrowDownload24Regular,
   ArrowRight24Regular,
-  CheckmarkCircle24Filled,
   ChevronRight24Regular,
   Code24Regular,
   Desktop24Regular,
@@ -20,13 +19,21 @@ import {
   Video24Regular,
   WeatherMoon24Regular,
 } from "@fluentui/react-icons";
+import AquaCurrent from "./AquaCurrent.jsx";
+import NewMotionPage from "./NewMotionPage.jsx";
+import FreshPage from "./FreshPage.jsx";
 
-const GITHUB_URL = "https://github.com/1114656/MotionWallpaper-Windows";
+const GITHUB_URL = "https://github.com/1114656/MotionWallpaper";
+const RELEASE_URL = `${GITHUB_URL}/releases/tag/v1.0.0`;
+const RELEASE_ASSETS_URL = `${GITHUB_URL}/releases/download/v1.0.0`;
+const INSTALLER_URL = `${RELEASE_ASSETS_URL}/MotionWallpaper-.-v1.0.0-Windows-x64-.exe`;
+const INSTALLER_CHECKSUM_URL = `${INSTALLER_URL}.sha256`;
+const PORTABLE_URL = `${RELEASE_ASSETS_URL}/MotionWallpaper-.-v1.0.0-Windows-x64-.zip`;
 
 const wallpapers = [
-  { src: "/assets/wallpaper-underwater.png", label: "Aqua Light", kind: "视频" },
-  { src: "/assets/wallpaper-flow.png", label: "Blue Current", kind: "视频" },
-  { src: "/assets/wallpaper-clouds.png", label: "Cloud Drift", kind: "视频" },
+  { src: "/assets/wallpaper-underwater.png", label: "Aqua Light", kind: "图片" },
+  { src: "/assets/wallpaper-flow.png", label: "Blue Current", kind: "图片" },
+  { src: "/assets/wallpaper-clouds.png", label: "Cloud Drift", kind: "图片" },
   { src: "/assets/wallpaper-leaves.png", label: "Morning Leaves", kind: "图片" },
 ];
 
@@ -45,7 +52,7 @@ function Brand() {
   );
 }
 
-function PageNav({ variant, onDownload }) {
+function PageNav({ variant }) {
   const other = variant === "aqua" ? "/cloudline" : "/aqua";
   const otherLabel = variant === "aqua" ? "查看云轨版" : "查看水光版";
   return (
@@ -58,7 +65,7 @@ function PageNav({ variant, onDownload }) {
       </div>
       <div className="nav-actions">
         <a className="variant-link" href={other}>{otherLabel}</a>
-        <button className="nav-download" type="button" onClick={onDownload}>下载</button>
+        <a className="nav-download" href={INSTALLER_URL}>下载</a>
       </div>
     </nav>
   );
@@ -86,7 +93,7 @@ function AppWindow({ selected, setSelected, compact = false }) {
           <div className="side-item"><Library24Regular /><span>媒体库</span></div>
           <div className="side-item"><Desktop24Regular /><span>显示器</span></div>
           <div className="side-item"><Settings24Regular /><span>设置</span></div>
-          <div className="side-version">v0.1.0</div>
+          <div className="side-version">v1.0.0</div>
         </aside>
         <div className="app-content">
           <div className="app-heading">
@@ -137,23 +144,16 @@ function DownloadDialog({ open, onClose }) {
       <section className="download-dialog" role="dialog" aria-modal="true" aria-labelledby="download-title" onMouseDown={(event) => event.stopPropagation()}>
         <button className="dialog-close" type="button" onClick={onClose} aria-label="关闭"><Dismiss24Regular /></button>
         <div className="dialog-icon"><ArrowDownload24Regular /></div>
-        <p className="eyebrow">下载说明</p>
-        <h2 id="download-title">公开下载地址准备中</h2>
-        <p>项目当前为 v0.1.0，仓库内已经具备安装版与便携版构建流程，但公开 GitHub Release 尚未发布。</p>
-        <div className="dialog-note"><ShieldCheckmark24Regular /> 正式提供下载时，会同时展示版本、SHA-256 校验值和未签名提示。</div>
-        <a className="primary-button" href={GITHUB_URL} target="_blank" rel="noreferrer">前往 GitHub <Open24Regular /></a>
+        <p className="eyebrow">Windows 正式版</p>
+        <h2 id="download-title">下载 MotionWallpaper 1.0.0</h2>
+        <p>适用于 Windows 10 22H2 或 Windows 11 的 x64 设备。普通用户建议下载安装包。</p>
+        <div className="dialog-note"><ShieldCheckmark24Regular /> 安装包尚未代码签名，Windows SmartScreen 可能显示提示。升级已有安装时，请退出程序并覆盖安装。</div>
+        <div className="dialog-actions">
+          <a className="primary-button" href={INSTALLER_URL}><ArrowDownload24Regular /> 下载安装包</a>
+          <a className="secondary-button" href={PORTABLE_URL}>下载便携版 ZIP</a>
+        </div>
+        <div className="dialog-links"><a href={INSTALLER_CHECKSUM_URL}>安装包 SHA-256</a><a href={RELEASE_URL} target="_blank" rel="noreferrer">版本说明 <Open24Regular /></a></div>
       </section>
-    </div>
-  );
-}
-
-function TrustStrip() {
-  return (
-    <div className="trust-strip reveal">
-      <span><CheckmarkCircle24Filled /> MIT 开源</span>
-      <span><CheckmarkCircle24Filled /> Windows 原生</span>
-      <span><CheckmarkCircle24Filled /> 源文件不改写</span>
-      <span><CheckmarkCircle24Filled /> 支持多显示器</span>
     </div>
   );
 }
@@ -201,7 +201,7 @@ function OpenSourceSection({ onDownload }) {
       <div className="open-copy reveal">
         <p className="eyebrow">开放，不只是可以看见</p><h2><span>一款可以真正了解、</span><span>参与和改进的壁纸应用。</span></h2>
         <p>MotionWallpaper 以 MIT 许可证开源。架构、更新记录与贡献指南，都在 GitHub 上公开。</p>
-        <div className="open-actions"><a className="primary-button" href={GITHUB_URL} target="_blank" rel="noreferrer">查看源代码 <Open24Regular /></a><button className="secondary-button" type="button" onClick={onDownload}>下载说明</button></div>
+        <div className="open-actions"><a className="primary-button" href={GITHUB_URL} target="_blank" rel="noreferrer">查看源代码 <Open24Regular /></a><button className="secondary-button" type="button" onClick={onDownload}>安装与校验说明</button></div>
       </div>
     </section>
   );
@@ -219,13 +219,13 @@ function SiteFooter({ variant }) {
 function AquaPage({ selected, setSelected, paused, setPaused, onDownload }) {
   return (
     <main className={`site aqua-site ${paused ? "motion-paused" : ""}`} id="top">
-      <div className="ambient-layer" aria-hidden="true"></div><PageNav variant="aqua" onDownload={onDownload} />
+      <div className="ambient-layer" aria-hidden="true"><AquaCurrent paused={paused} /></div><PageNav variant="aqua" />
       <section className="hero aqua-hero">
         <div className="hero-copy hero-copy--center reveal">
           <p className="eyebrow">Windows 桌面的另一种呼吸</p><h1 className="product-hero-title"><span>MotionWallpaper</span></h1>
           <p className="hero-summary">一款原生、轻量、开源的动态壁纸应用。<br />视频、图片、多显示器与动态屏保，都在一个干净的窗口里。</p>
-          <div className="hero-actions"><button className="primary-button" type="button" onClick={onDownload}><ArrowDownload24Regular /> 查看下载说明</button><a className="secondary-button" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <Open24Regular /></a></div>
-          <small className="hero-meta">Windows 10 2004+ · x64 · v0.1.0</small>
+          <div className="hero-actions"><a className="primary-button" href={INSTALLER_URL}><ArrowDownload24Regular /> 下载 Windows 安装包</a><a className="secondary-button" href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub <Open24Regular /></a></div>
+          <small className="hero-meta">Windows 10 22H2+ · x64 · v1.0.0 正式版</small>
         </div>
         <div className="hero-window-stage reveal">
           <div className="glass-disc glass-disc--left" aria-hidden="true"></div><div className="glass-disc glass-disc--right" aria-hidden="true"></div>
@@ -233,7 +233,7 @@ function AquaPage({ selected, setSelected, paused, setPaused, onDownload }) {
         </div>
         <PlayerButton paused={paused} setPaused={setPaused} />
       </section>
-      <TrustStrip /><ModesSection variant="aqua" /><OpenSourceSection onDownload={onDownload} /><SiteFooter variant="aqua" />
+      <ModesSection variant="aqua" /><OpenSourceSection onDownload={onDownload} /><SiteFooter variant="aqua" />
     </main>
   );
 }
@@ -241,12 +241,12 @@ function AquaPage({ selected, setSelected, paused, setPaused, onDownload }) {
 function CloudlinePage({ selected, setSelected, paused, setPaused, onDownload }) {
   return (
     <main className={`site cloudline-site ${paused ? "motion-paused" : ""}`} id="top">
-      <div className="ambient-layer" aria-hidden="true"></div><PageNav variant="cloudline" onDownload={onDownload} />
+      <div className="ambient-layer" aria-hidden="true"></div><PageNav variant="cloudline" />
       <section className="hero cloudline-hero">
         <div className="cloud-hero-copy reveal">
           <p className="eyebrow">Cloudline Motion</p><h1 className="product-hero-title"><span>MotionWallpaper</span></h1>
           <p>把喜欢的视频与图片留在桌面。原生播放、多屏适配，在需要安静时自动退场。</p>
-          <div className="hero-actions"><button className="primary-button" type="button" onClick={onDownload}>开始了解 <ArrowRight24Regular /></button><a className="round-link" href={GITHUB_URL} target="_blank" rel="noreferrer" aria-label="打开 GitHub"><Open24Regular /></a></div>
+          <div className="hero-actions"><a className="primary-button" href={INSTALLER_URL}>下载 Windows 安装包 <ArrowDownload24Regular /></a><a className="round-link" href={GITHUB_URL} target="_blank" rel="noreferrer" aria-label="打开 GitHub"><Open24Regular /></a></div>
         </div>
         <div className="cloud-window-stage reveal">
           <div className="window-echo window-echo--back" aria-hidden="true"></div><div className="window-echo window-echo--middle" aria-hidden="true"></div>
@@ -254,7 +254,7 @@ function CloudlinePage({ selected, setSelected, paused, setPaused, onDownload })
         </div>
         <div className="hero-rail-wrap reveal"><WallpaperRail selected={selected} setSelected={setSelected} /></div><div className="scroll-cue"><span>SCROLL</span><i></i></div><PlayerButton paused={paused} setPaused={setPaused} />
       </section>
-      <TrustStrip /><CloudStory selected={selected} setSelected={setSelected} /><ModesSection variant="cloudline" /><OpenSourceSection onDownload={onDownload} /><SiteFooter variant="cloudline" />
+      <CloudStory selected={selected} setSelected={setSelected} /><ModesSection variant="cloudline" /><OpenSourceSection onDownload={onDownload} /><SiteFooter variant="cloudline" />
     </main>
   );
 }
@@ -283,5 +283,5 @@ export function App() {
   }, [route]);
 
   const shared = { selected, setSelected, paused, setPaused, onDownload: () => setDialogOpen(true) };
-  return <>{route === "/aqua" ? <AquaPage {...shared} /> : route === "/cloudline" ? <CloudlinePage {...shared} /> : <CompareHome />}<DownloadDialog open={dialogOpen} onClose={() => setDialogOpen(false)} /></>;
+  return <>{route === "/" || route === "/fresh" ? <FreshPage onDownload={() => setDialogOpen(true)} /> : route === "/aqua" ? <AquaPage {...shared} /> : route === "/cloudline" ? <CloudlinePage {...shared} /> : route === "/new" ? <NewMotionPage onDownload={() => setDialogOpen(true)} /> : <CompareHome />}<DownloadDialog open={dialogOpen} onClose={() => setDialogOpen(false)} /></>;
 }
